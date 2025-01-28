@@ -5,7 +5,7 @@ from common.scraping import connect_fmkorea
 from common.database import insert_data_to_mysql
 
 
-st.title('deepseek에 대한 반응(fmkorea)')
+st.title('Deepseek에 대한 커뮤니티 반응 (에펨코리아)')
 
 
 with st.form('st_form'):
@@ -17,7 +17,6 @@ if form_submit and pages is not None:
     for page in range(1, int(pages)+1):
         response = connect_fmkorea(page)
         comments = get_comments(response)
-        st.write(comments)
         insert_data_to_mysql(comments)
 
     result_conn = st.connection('scraping_comments_for_deepseek_db', type='sql', autocommit=True)
