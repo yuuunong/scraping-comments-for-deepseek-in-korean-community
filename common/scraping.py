@@ -9,11 +9,11 @@ def connect_fmkorea(p_page:int):
 
 def get_comments(p_response:requests.models.Response) -> list:
 
-    if p.response.status_code >= 400:
+    if p_response.status_code >= 400:
         return '접속 오류입니다.'
 
     bs_text = bs(p_response.text, 'html.parser')
-
+    
     comment_list = bs_text.find_all('dl')
 
     comment_dict_list = [{
