@@ -7,8 +7,8 @@ def connect_fmkorea(p_page:int):
     response = requests.get(url = url, headers = header)
     return response
 
-def get_comments(p_response:requests.models.Response) -> list:
 
+def get_comments(p_response:requests.models.Response) -> list:
     if p_response.status_code >= 400:
         return '접속 오류입니다.'
 

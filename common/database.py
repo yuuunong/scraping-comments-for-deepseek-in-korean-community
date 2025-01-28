@@ -1,4 +1,3 @@
-import logging
 import streamlit as st
 from sqlalchemy import text
 
@@ -7,34 +6,14 @@ def get_connector():
     return st.connection('scraping_comments_for_deepseek_db', type='sql', autocommit=True)
 
 
-#def create_table():
-#   query = '''
-#    use scraping_comments_for_deepseek;
-#    
-#    create table comments_fmkorea(
-#        title varchar,
-#        comment varchar)
-#    ;
-#    '''
-'''
-def insert_query(sql_constant:INSERT_SQLs, datas:list) -> list:
+def insert_data_to_mysql(p_comments):
     conn = get_connector()
-    list_error = []
-    logging.info(f"[insert_query] len(datas): {len(datas)}")
 
-    for idx, data in enumerate(datas):
+    for i in p_comments:
         try:
-            
-            logging.info(f"[insert_query] len(datas)[idx]: {idx}")
-            insert_sql = sql_constant.value[1].format(
-                title=data['title'],
-                comment=data['comment']
-            )
-            conn.connect().execute(text(insert_sql))
-        except Exception as e:
-            
-            data['error'] = str(e)
-            list_error.append(data)
-    
-    return list_error
-'''
+            query = """insert into comments_fmkorea (title, comment) values ('{0}', '{1}')""".format(i['title'], i['comment'])
+            conn.session.execute(text(query))
+            conn.session.commit()
+        except:
+            pass
+
