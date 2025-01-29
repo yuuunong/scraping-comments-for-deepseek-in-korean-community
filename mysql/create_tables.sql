@@ -1,7 +1,15 @@
-create table comments_fmkorea(
-	title varchar(250),
-	comment varchar(250));
+CREATE TABLE comments_fmkorea(
+	title VARCHAR(250),
+	comment VARCHAR(250),
+	gallery VARCHAR(50),
+	date_ DATE
+	)
+;
 
-create table comments_dcinside(
-	title varchar(250),
-	comment varchar(250));
+CREATE TABLE comments_dcinside(
+	title VARCHAR(250),
+	comment VARCHAR(250),
+	gallery VARCHAR(50),
+	date_ DATE
+	)
+;

@@ -1,5 +1,7 @@
 # scraping-comments-for-deepseek-in-korean-community
 
+<br>
+
 ## 프로젝트 개요
 
 ### 프로젝트 주제
@@ -16,7 +18,25 @@ DeepSeek에 대한 한국 커뮤니티의 반응을 분석하여 사람들의 �
 
 ### 프로젝트 내용
 
-한국의 최대 커뮤니티 디시인사이드, FM코리아에서 '딥시크'를 검색하여 관련글 제목과 내용을 스크래핑 후 MySQL 데이터베이스에 저장.
+한국의 최대 커뮤니티 디시인사이드, FM코리아아에서 '딥시크'를 검색하여 관련글 제목과 내용을 스크래핑 후 MySQL 데이터베이스에 저장.
+
+<br>
+
+## 기술스택
+
+### 데이터 저장 및 처리
+
+![](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) &nbsp; ![](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=white) &nbsp; ![](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
+### 화면 구현
+
+![](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=white) &nbsp; ![](https://img.shields.io/badge/streamlit-FF0000?style=for-the-badge&logo=streamlit&logoColor=white)
+
+### 버전 관리
+
+![](https://img.shields.io/badge/github-000000?style=for-the-badge&logo=github&logoColor=white) &nbsp; ![](https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+<br>
 
 ## 설치/사용 방법
 
@@ -46,11 +66,19 @@ USE scraping_comments_for_deepseek;
 
 CREATE TABLE comments_fmkorea(
 	title VARCHAR(250),
-	comment VARCHAR(250));
+	comment VARCHAR(250),
+	gallery VARCHAR(50),
+	date_ DATE
+	)
+;
 
 CREATE TABLE comments_dcinside(
 	title VARCHAR(250),
-	comment VARCHAR(250));
+	comment VARCHAR(250),
+	gallery VARCHAR(50),
+	date_ DATE
+	)
+;
 ```
 
 ### 4. 서비스 실행
@@ -58,20 +86,27 @@ CREATE TABLE comments_dcinside(
 streamlit run app.py
 ```
 
-## 기술스택
-
-### 데이터 저장 및 처리
-
-![](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) &nbsp; ![](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=white)
-
-### 화면 구현
-
-![](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=white) &nbsp; ![](https://img.shields.io/badge/streamlit-FF0000?style=for-the-badge&logo=streamlit&logoColor=white)
-
-### 버전 관리
-
-![](https://img.shields.io/badge/github-000000?style=for-the-badge&logo=github&logoColor=white) &nbsp; ![](https://img.shields.io/badge/git-000000?style=for-the-badge&logo=git&logoColor=white)
-
-## 시스템 구성도
+<br>
 
 ## 프로젝트 결과
+![alt text](./images/image.png)
+![alt text](./images/image-1.png)
+
+## 개발하면서 발생한 문제
+
+### sqlalchemy.exc.ResourceClosedError: This result object does not return rows. It has been closed automatically.
+
+streamlit.connection.query에서 sql파라미터에 insert문을 삽입해서 발생한 문제. query에서는 select문만 사용해야 한다.
+
+#### 해결방법
+
+streamlit.connection.session.execute(insert문), streamlit.connection.session.commit()을 사용한다.
+
+### sqlalchemy.exc.ArgumentError: Textual SQL expression '' should be explicitly declared as text('')
+
+streamlit connection을 생성하고 connection에서 insert 쿼리문을 실행하려고 할 때 발생한 문제. 데이터에 따옴표( ' or " )가 있으면 쿼리 문자열을 제대로 인식하지 못하고 MySQL서버에 저장하지 못함
+
+#### 해결방법
+
+sqlalchemy 라이브러리에서 text함수를 import하고 해당 쿼리 str을 text함수에 넣어서 해결
+
