@@ -15,5 +15,6 @@ def insert_data_to_mysql(p_comments):
             conn.session.execute(text(query))
             conn.session.commit()
         except:
+            st.write('저장실패')
             pass
 
